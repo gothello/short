@@ -66,7 +66,7 @@ func main() {
 	wg.Add(2)
 
 	go read(file, lines)
-    go load(lines)
+        go load(lines)
 
 	wg.Wait()
 }
