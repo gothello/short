@@ -2,42 +2,13 @@ package main
 
 import (
 
-	"bufio"
-	"fmt"
-	"sync"
 	"os"
+	"github.com/gothello/short/config"
 )
-
-var wg sync.WaitGroup
-
-func read(file *os.File, chLine chan string) {
-	defer wg.Done()
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan(){
-		line := scanner.Text()
-
-		chLine <- line
-	}
-
-	if err := scanner.Err(); err != nil {
-		chLine <- fmt.Sprint(err)
-	}
-
-	close(chLine)
-}
-
-func load(lines chan string){
-	defer wg.Done()
-
-	for line := range lines {
-    	fmt.Println(line)
-    }
-}
 
 func main() {
 
-	conf, err := configLoad()
+	conf, err := config.Load()
 	if err != nil {
 		panic(err)
 	}
@@ -46,13 +17,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	proxys, err := os.Open(conf.GetString("proxys"))
+	if err != nil {
+		panic(err)
+	}
 	
-	lines := make(chan string)
-
-	wg.Add(2)
-
-	go read(file, lines)
-        go load(lines)
-
-	wg.Wait()
+	Run(file)
+	Run(proxys)
 }
