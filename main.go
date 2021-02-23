@@ -6,23 +6,9 @@ import (
 	"fmt"
 	"sync"
 	"os"
-	"github.com/spf13/viper"
 )
 
 var wg sync.WaitGroup
-
-func configLoad() (*viper.Viper, error) {
-	conf := viper.GetViper()
-	conf.AddConfigPath(".")
-	conf.SetConfigFile("conf")
-	conf.SetConfigType("yaml")
-	err := viper.ReadInConfig()
-	if err != nil {
-		return nil, err
-	}
-
-	return conf, nil
-}
 
 func read(file *os.File, chLine chan string) {
 	defer wg.Done()
