@@ -4,6 +4,7 @@ import (
 
 	"os"
 	"github.com/gothello/short/config"
+	"github.com/gothello/short/stere"
 )
 
 func main() {
@@ -23,6 +24,6 @@ func main() {
 		panic(err)
 	}
 	
-	Run(file)
-	Run(proxys)
+	stere.Run(file)
+	stere.Run(proxys)
 }

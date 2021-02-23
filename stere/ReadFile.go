@@ -1,12 +1,14 @@
 package stere
 
 import (
+
+	"os"
 	"fmt"
 	"sync"
 	"bufio"
 )
 
-func ReadFile(file *os.File, wg *sync.WaitGroup, chLine chan string) {
+func ReadFile(file *os.File, chLine chan string, wg *sync.WaitGroup) {
 	defer wg.Done()
 	scanner := bufio.NewScanner(file)
 
